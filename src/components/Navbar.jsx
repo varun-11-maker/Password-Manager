@@ -16,7 +16,7 @@ const Navbar = () => {
                     <a className='hover:font-bold' href="">Contact</a>
                 </li>
             </ul> */}
-            <button className='flex gap-3 justify-between items-center text-white bg-green-700 rounded-full p-2 '>
+            <button className='flex gap-3 justify-between items-center ring-white ring-1 text-white bg-green-700 rounded-full p-2 '>
                 <img className="invert"src="icons/github.svg" alt="" />
                 <span className='font-bold'>Github</span>
             </button>
