@@ -28,13 +28,29 @@ const Manager = () => {
     }
   };
   const savePassword = () => {
-    setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-    localStorage.setItem(
-      "passwords",
-      JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
-    );
-    console.log([...passwordArray,form]);
-    setform({ site: "", username: "", password: "" })
+    if(form.site.length>3&&form.username.length>3&&form.password.length>3){
+
+        setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
+        localStorage.setItem(
+            "passwords",
+            JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
+            );
+            console.log([...passwordArray,form]);
+            setform({ site: "", username: "", password: "" })
+            toast("Password saved!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        else{
+            toast('Password not saved!');
+        }
   };
   const deletePassword = (id) => {
     console.log("Deleting password with id",id);
@@ -42,9 +58,20 @@ const Manager = () => {
     if(c){
     setPasswordArray(passwordArray.filter(item=>item.id!==id))
     localStorage.setItem("passwords",JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]));
+    toast("Password Deleted!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   const editPassword =(id)=>{
+
     console.log("Editing password with id", id)   
     setform(passwordArray.filter(item=>item.id===id)[0])
     setPasswordArray(passwordArray.filter(item=>item.id!==id));
@@ -86,7 +113,7 @@ const Manager = () => {
       <div className="absolute inset-0 -z-10 h-full w-full bg-green-50 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div>
       </div>
-      <div className="mycontainer">
+      <div className="p-3 md:p-0 md:mycontainer min-h-[88.5vh]">
         <h1 className="text-4xl font-bold text-center">
           <span className="text-green-500">&lt;</span>
           <span>Pass</span>
@@ -103,9 +130,9 @@ const Manager = () => {
             className="rounded-full border border-green-500 w-full p-4 py-1"
             type="text"
             name="site"
-            id=""
+            id="site"
           />
-          <div className="flex w-full justify-between gap-8">
+          <div className="flex flex-col md:flex-row w-full justify-between gap-8">
             <input
               value={form.username}
               onChange={handleChange}
@@ -113,7 +140,7 @@ const Manager = () => {
               className="rounded-full border border-green-500 w-full p-4 py-1"
               type="text"
               name="username"
-              id=""
+              id="username"
             />
             <div className="relative">
               <input
@@ -124,7 +151,7 @@ const Manager = () => {
                 className="rounded-full border border-green-500 w-full p-4 py-1"
                 type="password"
                 name="password"
-                id=""
+                id="password"
               />
               <span
                 className="absolute right-1 top-1.5 cursor-pointer"
@@ -156,7 +183,7 @@ const Manager = () => {
           <h2 className="font-bold text-2xl py-4">Your Passwords</h2>
           {passwordArray.length === 0 && <div>No passwords to show</div>}
           {passwordArray.length != 0 && (
-            <table className="table-auto w-full rounded-md overflow-hidden">
+            <table className="table-auto w-full rounded-md overflow-hidden mb-10">
               <thead className="bg-green-800 text-white">
                 <tr>
                   <th className="py-2">Site</th>
